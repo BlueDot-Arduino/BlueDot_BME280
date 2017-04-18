@@ -4,4 +4,7 @@ The Sensor BME280 uses I2C and SPI communication protocols.
 For more information on how to install and use this library, please go to www.bluedot.space
 
 Created by BlueDot UG (haftungsbeschränkt)
-Written by Thiago Barros, BSD License
+
+
+##**License Information**
+
