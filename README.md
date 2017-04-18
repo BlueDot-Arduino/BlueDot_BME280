@@ -6,5 +6,7 @@ For more information on how to install and use this library, please go to www.bl
 Created by BlueDot UG (haftungsbeschränkt)
 
 
-##**License Information**
+## **License Information**
+
+This licence is released under the [Creative Commons ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) license.
 
