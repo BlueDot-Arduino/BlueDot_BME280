@@ -1,12 +1,23 @@
-This Library was created for the BlueDot BME280 Sensor (Temperature, Humidity and Pressure).
-The Sensor BME280 uses I2C and SPI communication protocols.
+## **BlueDot Arduino Libraries**
 
-For more information on how to install and use this library, please go to www.bluedot.space
+This library allows the user to program and read the outputs of the BME280 Sensor with an Arduino Board.
 
-Created by BlueDot UG (haftungsbeschränkt)
+
+## **Repository Contents**
+
+* Source Files (.cpp and .h)
+* Example Sketch: BME280_WeatherStation.ino
+* Example Sketch: BME280_MultipleSensors_I2C
+* library.properties File
+
+
+## **Version History**
+
+* V1.0.0 - Public Release Version
 
 
 ## **License Information**
 
 This licence is released under the [Creative Commons ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) license.
 
+This Library is distributed as-is and no warranty is given.
