@@ -12,6 +12,7 @@
 
 
 #include <Wire.h>
+#include <SPI.h>
 #include "BlueDot_BME280.h"
 BlueDot_BME280 bme280 = BlueDot_BME280();
 
