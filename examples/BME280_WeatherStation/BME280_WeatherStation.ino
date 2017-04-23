@@ -42,7 +42,8 @@ void setup() {
   //Set the pins for SPI Communication
   //Or ignore this, if you're using I2C Communication instead
 
-  //bme280.parameter.SPI_cs = 10;                         //Comment this line out, if using Hardware SPI
+    bme280.parameter.SPI_cs = 10;                         //Chip Select Pin used for both Software and Hardware SPI
+  
   //bme280.parameter.SPI_mosi = 11;                       //Comment this line out, if using Hardware SPI
   //bme280.parameter.SPI_miso = 12;                       //Comment this line out, if using Hardware SPI
   //bme280.parameter.SPI_sck = 13;                        //Comment this line out, if using Hardware SPI
