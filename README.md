@@ -14,6 +14,7 @@ This library allows the user to program and read the outputs of the BME280 Senso
 ## **Version History**
 
 * V1.0.0 - Public Release Version
+* V1.0.1
 
 
 ## **License Information**
