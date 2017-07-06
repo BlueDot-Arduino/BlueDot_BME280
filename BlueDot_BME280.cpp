@@ -56,7 +56,7 @@ uint8_t BlueDot_BME280::init(void)
 		pinMode(parameter.SPI_cs, OUTPUT);						//Chip Select Pin as Output
 		SPI.begin();											//Initialize SPI library
 		SPI.setBitOrder(MSBFIRST);								//Most significant Bit first
-		SPI.setClockDivider(SPI_CLOCK_DIV32);					//Sets SPI clock to 1/32th of the system clock (i.e. 500 kHz for Arduino Uno)
+		SPI.setClockDivider(SPI_CLOCK_DIV4);					//Sets SPI clock to 1/4th of the system clock (i.e. 4000 kHz for Arduino Uno)
 		SPI.setDataMode(SPI_MODE0);								//Set Byte Transfer to (0,0) Mode
 	}
 	else														//I2C Communication
@@ -252,6 +252,7 @@ float BlueDot_BME280::readAltitudeFeet(void)
 	heightOutput = heightOutput / 0.0065;
 	heightOutput = heightOutput / 0.3048;
 	
+
 	return heightOutput;
 	
 }
@@ -268,8 +269,8 @@ float BlueDot_BME280::readAltitudeMeter(void)
 	heightOutput = 1 - heightOutput;	
 	heightOutput = heightOutput * tempOutsideKelvin;
 	heightOutput = heightOutput / 0.0065;
-	return heightOutput;	
-
+	//return heightOutput;	
+	return 333333;
 }
 
 //##########################################################################
