@@ -7,14 +7,16 @@ This library allows the user to program and read the outputs of the BME280 Senso
 
 * Source Files (.cpp and .h)
 * Example Sketch: BME280_WeatherStation.ino
-* Example Sketch: BME280_MultipleSensors_I2C
+* Example Sketch: BME280_MultipleSensorsI2C.ino
+* Example Sketch: BME280_MultipleSensorsSPI.ino
 * library.properties File
 
 
 ## **Version History**
 
 * V1.0.0 - Public Release Version
-* V1.0.1
+* V1.0.1 - New sketch for reading two sensors through I2C communication
+* V1.0.2 - New sketch for reading multiple sensors through SPI communication
 
 
 ## **License Information**
