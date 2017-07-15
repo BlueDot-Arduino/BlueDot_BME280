@@ -251,8 +251,6 @@ float BlueDot_BME280::readAltitudeFeet(void)
 	heightOutput = heightOutput * tempOutsideKelvin;
 	heightOutput = heightOutput / 0.0065;
 	heightOutput = heightOutput / 0.3048;
-	
-
 	return heightOutput;
 	
 }
@@ -269,8 +267,8 @@ float BlueDot_BME280::readAltitudeMeter(void)
 	heightOutput = 1 - heightOutput;	
 	heightOutput = heightOutput * tempOutsideKelvin;
 	heightOutput = heightOutput / 0.0065;
-	//return heightOutput;	
-	return 333333;
+	return heightOutput;	
+	
 }
 
 //##########################################################################
