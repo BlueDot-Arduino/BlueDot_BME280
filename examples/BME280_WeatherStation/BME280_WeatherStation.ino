@@ -31,7 +31,7 @@ void setup() {
   //1:        Set to 1 for Software SPI
   //2:        Set to 2 for Hardware SPI
 
-    bme280.parameter.communication = 1;                  //Choose communication protocol
+    bme280.parameter.communication = 0;                  //Choose communication protocol
 
     
      
