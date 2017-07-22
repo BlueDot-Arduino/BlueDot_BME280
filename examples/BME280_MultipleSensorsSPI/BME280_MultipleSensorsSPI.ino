@@ -38,7 +38,7 @@ void setup() {
     bme1.parameter.communication = 1;                    //Hardware SPI for Sensor 1 (bme1)
     bme2.parameter.communication = 1;                    //Hardware SPI for Sensor 2 (bme2)
     bme3.parameter.communication = 1;                    //Hardware SPI for Sensor 3 (bme3)
-    bme4.parameter.communication = 1;                    //Hardware SPI for Sensor 3 (bme4) 
+    bme4.parameter.communication = 1;                    //Hardware SPI for Sensor 4 (bme4) 
 
       
 
