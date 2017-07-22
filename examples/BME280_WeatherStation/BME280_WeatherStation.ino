@@ -54,7 +54,7 @@ void setup() {
   //Set the pins for SPI Communication
   //Or ignore this, if you're using I2C Communication instead
 
-    bme280.parameter.SPI_cs = 7;                          //Are you using either Software SPI or Hardware SPI? Then you need to define the Chip Select Pin.
+    bme280.parameter.SPI_cs = 10;                          //Are you using either Software SPI or Hardware SPI? Then you need to define the Chip Select Pin.
     
     bme280.parameter.SPI_mosi = 13;                       //If you are using Software SPI, then you need to define the MOSI line. For Hardware SPI you can leave this line commented.
     bme280.parameter.SPI_miso = 11;                       //If you are using Software SPI, then you need to define the MISO line. Just comment this out for Hardware SPI.
