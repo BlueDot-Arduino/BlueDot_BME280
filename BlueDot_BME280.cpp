@@ -21,8 +21,8 @@ BlueDot_BME280::BlueDot_BME280()
 	parameter.pressOversampling;
 	parameter.humidOversampling;
 	parameter.pressureSeaLevel = 0;
-	parameter.tempOutsideCelsius = 0;
-	parameter.tempOutsideFahrenheit = 0;
+	parameter.tempOutsideCelsius = 999;
+	parameter.tempOutsideFahrenheit = 999;
 
 }
 
@@ -213,11 +213,19 @@ float BlueDot_BME280::convertTempKelvin(void)
 	//Both tempOutsideCelsius and tempOutsideFahrenheit are set to 999 as default (see .h file)
 	//If the user chooses to read temperature in Celsius, tempOutsideFahrenheit remains 999
 	//If the user chooses to read temperature in Fahrenheit instead, tempOutsideCelsius remains 999
-	//If both or none are used, then the temperature in Celsius will be used for the conversion
+	//If both values are used, then the temperature in Celsius will be used for the conversion
+	//If none of them are used, then the default value of 288.15 will be used (i.e. 273.15 + 15)
 		
 	float tempOutsideKelvin;	
 	
 	if (parameter.tempOutsideCelsius != 999 & parameter.tempOutsideFahrenheit == 999 )   
+	{
+		tempOutsideKelvin = parameter.tempOutsideCelsius;
+		tempOutsideKelvin = tempOutsideKelvin + 273.15;
+		return tempOutsideKelvin;		
+	}
+	
+	if (parameter.tempOutsideCelsius != 999 & parameter.tempOutsideFahrenheit != 999 )   
 	{
 		tempOutsideKelvin = parameter.tempOutsideCelsius;
 		tempOutsideKelvin = tempOutsideKelvin + 273.15;
@@ -232,6 +240,12 @@ float BlueDot_BME280::convertTempKelvin(void)
 		tempOutsideKelvin = tempOutsideKelvin / 9;
 		tempOutsideKelvin = tempOutsideKelvin + 273.15;
 		return tempOutsideKelvin;	
+	}
+	
+	if (parameter.tempOutsideFahrenheit == 999 & parameter.tempOutsideCelsius == 999)
+	{
+		tempOutsideKelvin = 273.15 + 15;
+		return tempOutsideKelvin; 
 	}
 	
 	tempOutsideKelvin = 273.15 + 15;
