@@ -232,12 +232,12 @@ void loop()
 
 
    
-   Serial.print(F("Duration in Seconds:\t\t"));
-   Serial.println(float(millis())/1000);
+   //Serial.print(F("Duration in Seconds:\t\t"));
+   //Serial.println(float(millis())/1000);
  
-   Serial.print(F("Temperature in Celsius:\t\t")); 
-   Serial.println(bme280.readTempC());
- 
+   //Serial.print(F("Temperature in Celsius:\t\t")); 
+   Serial.println(bme280.readPressure());
+/* 
    Serial.print(F("Temperature in Fahrenheit:\t")); 
    Serial.println(bme280.readTempF());
    
@@ -255,7 +255,7 @@ void loop()
    
    Serial.println();
    Serial.println();
-
-   delay(1000);   
+*/
+   delay(250);   
  
 }
