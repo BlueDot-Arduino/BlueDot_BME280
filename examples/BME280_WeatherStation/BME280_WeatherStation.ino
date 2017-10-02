@@ -31,7 +31,7 @@ void setup() {
   //1:        Set to 1 for Software SPI
   //2:        Set to 2 for Hardware SPI
 
-    bme280.parameter.communication = 0;                  //Choose communication protocol
+    bme280.parameter.communication = 2;                  //Choose communication protocol
 
     
      
@@ -54,7 +54,7 @@ void setup() {
   //Set the pins for SPI Communication
   //Or ignore this, if you're using I2C Communication instead
 
-    bme280.parameter.SPI_cs = 10;                          //Are you using either Software SPI or Hardware SPI? Then you need to define the Chip Select Pin.
+    bme280.parameter.SPI_cs = 2;                          //Are you using either Software SPI or Hardware SPI? Then you need to define the Chip Select Pin.
     
     bme280.parameter.SPI_mosi = 13;                       //If you are using Software SPI, then you need to define the MOSI line. For Hardware SPI you can leave this line commented.
     bme280.parameter.SPI_miso = 11;                       //If you are using Software SPI, then you need to define the MISO line. Just comment this out for Hardware SPI.
@@ -152,17 +152,22 @@ void setup() {
   //*************ADVANCED SETUP - SAFE TO IGNORE!************************
   
   //For precise altitude measurements please put in the current pressure corrected for the sea level
-  //On doubt, just leave the standard pressure as default (1013.25 hPa);
+  //On doubt, just leave the standard pressure as default (1013.25 hPa)
   
     bme280.parameter.pressureSeaLevel = 1013.25;           //default value of 1013.25 hPa
 
-  //Also put in the current average temperature outside (yes, really outside!)
-  //For slightly less precise altitude measurements, just leave the standard temperature as default (15°C);
+  //Now write here the current average temperature outside (yes, the outside temperature!)
+  //You can either use the value in Celsius or in Fahrenheit, but only one of them (comment out the other value)
+  //In order to calculate the altitude, this temperature is converted by the library into Kelvin
+  //For slightly less precise altitude measurements, just leave the standard temperature as default (15°C)
+  //Remember, leave one of the values here commented, and change the other one!
+  //If both values are left commented, the default temperature of 15°C will be used
+  //But if both values are left uncommented, then the value in Celsius will be used    
   
     bme280.parameter.tempOutsideCelsius = 15;              //default value of 15°C
-    bme280.parameter.tempOutsideFahrenheit = 59;           //default value of 59°F
-
+  //bme280.parameter.tempOutsideFahrenheit = 59;           //default value of 59°F
     
+  
 
   //*********************************************************************
   //*************ADVANCED SETUP - SAFE TO IGNORE!************************
@@ -173,7 +178,7 @@ void setup() {
   //Per default the Watchdog Timer is turned off (commented out).
   //Do you need to run the Arduino for a long time without supervision and your program loop takes less than 8 seconds? Then remove the comments below!
     
-  //wdt_enable(WDTO_8S);                                 //Watchdog Timer counts for 8 seconds before starting the reset sequence
+  //wdt_enable(WDTO_8S);                                  //Watchdog Timer counts for 8 seconds before starting the reset sequence
       
 
   
@@ -221,9 +226,6 @@ void setup() {
   Serial.println();
 
 }
-
-
-
   //*********************************************************************
   //*************NOW LET'S START MEASURING*******************************
 void loop() 
@@ -232,12 +234,12 @@ void loop()
 
 
    
-   //Serial.print(F("Duration in Seconds:\t\t"));
-   //Serial.println(float(millis())/1000);
+   Serial.print(F("Duration in Seconds:\t\t"));
+   Serial.println(float(millis())/1000);
  
-   //Serial.print(F("Temperature in Celsius:\t\t")); 
-   Serial.println(bme280.readPressure());
-/* 
+   Serial.print(F("Temperature in Celsius:\t\t")); 
+   Serial.println(bme280.readTempC());
+ 
    Serial.print(F("Temperature in Fahrenheit:\t")); 
    Serial.println(bme280.readTempF());
    
@@ -255,7 +257,7 @@ void loop()
    
    Serial.println();
    Serial.println();
-*/
-   delay(250);   
+
+   delay(1000);   
  
 }
