@@ -21,6 +21,7 @@ This library allows the user to program and read the outputs of the BME280 Senso
 * V1.0.4 - Minor corrections on all sketches
 * V1.0.5 - Minor correction on BME280_WeatherStation.ino sketch
 * V1.0.6 - Minor correction on BME280_WeatherStation.ino sketch
+* V1.0.7 - Minor correction on BME280_WeatherStation.ino sketch
 
 
 ## **License Information**
