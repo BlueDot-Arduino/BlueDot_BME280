@@ -12,7 +12,6 @@
 
 
 #include <Wire.h>
-#include <avr/wdt.h>
 #include "BlueDot_BME280.h"
 
 BlueDot_BME280 bme1;                                     //Object for Sensor 1
@@ -155,21 +154,8 @@ void setup() {
     bme1.parameter.tempOutsideFahrenheit = 59;            //default value of 59°F
     bme2.parameter.tempOutsideFahrenheit = 59;            //default value of 59°F
 
-    
   
-  //*********************************************************************
-  //*************ADVANCED SETUP - SAFE TO IGNORE!************************
-
-  //The Watchdog Timer forces the Arduino to restart whenever the program hangs for longer than 8 seconds.
-  //This is useful when the program enters an infinite loop and stops giving any feedback on the serial monitor.
-  //However the Watchdog Timer may also be triggered whenever a single program loop takes longer than 8 seconds.
-  //Per default the Watchdog Timer is turned off (commented out).
-  //Do you need to run the Arduino for a long time without supervision and your program loop takes less than 8 seconds? Then remove the comments below!
     
-  //wdt_enable(WDTO_8S);                                 //Watchdog Timer counts for 8 seconds before starting the reset sequence
-      
-
-  
   //*********************************************************************
   //*************ADVANCED SETUP IS OVER - LET'S CHECK THE CHIP ID!*******
 
@@ -226,9 +212,7 @@ void setup() {
   //*********************************************************************
   //*************NOW LET'S START MEASURING*******************************
 void loop() {
- 
-  wdt_reset();                                               //This function resets the counter of the Watchdog Timer. Always use this function if the Watchdog Timer is enabled.
-  
+   
   Serial.print(F("Duration in Seconds:  "));
   Serial.println(float(millis())/1000);
 
