@@ -12,7 +12,6 @@
 
 
 #include <Wire.h>
-#include <avr/wdt.h>
 #include "BlueDot_BME280.h"
 BlueDot_BME280 bme280 = BlueDot_BME280();
 
@@ -30,8 +29,9 @@ void setup() {
   //0:        Set to 0 for I2C (default value)
   //1:        Set to 1 for Software SPI
   //2:        Set to 2 for Hardware SPI
+  //3:        Set to 3 for I2C for NodeMCU Board (SDA = Pin D3, SCL = D4)
 
-    bme280.parameter.communication = 0;                  //Choose communication protocol
+    bme280.parameter.communication = 3;                  //Choose communication protocol
 
     
      
@@ -168,27 +168,11 @@ void setup() {
   //bme280.parameter.tempOutsideFahrenheit = 59;           //default value of 59°F
     
   
-
-  //*********************************************************************
-  //*************ADVANCED SETUP - SAFE TO IGNORE!************************
-
-  //The Watchdog Timer forces the Arduino to restart whenever the program hangs for longer than 8 seconds.
-  //This is useful when the program enters an infinite loop and stops giving any feedback on the serial monitor.
-  //However the Watchdog Timer may also be triggered whenever a single program loop takes longer than 8 seconds.
-  //Per default the Watchdog Timer is turned off (commented out).
-  //Do you need to run the Arduino for a long time without supervision and your program loop takes less than 8 seconds? Then remove the comments below!
-    
-  //wdt_enable(WDTO_8S);                                  //Watchdog Timer counts for 8 seconds before starting the reset sequence
-      
-
-  
   //*********************************************************************
   //*************ADVANCED SETUP IS OVER - LET'S CHECK THE CHIP ID!*******
   
   if (bme280.init() != 0x60)
   {    
-                                                         //If the Arduino fails to identify the BME280, program stops and shows the Troubleshooting guide
-    wdt_disable();                                       //The Watchdog Timer is turned off
     
     
     Serial.println(F("Ops! BME280 could not be found!"));
@@ -230,9 +214,7 @@ void setup() {
   //*************NOW LET'S START MEASURING*******************************
 void loop() 
 { 
-   wdt_reset();                                               //This function resets the counter of the Watchdog Timer. Always use this function if the Watchdog Timer is enabled.
-
-
+  
    
    Serial.print(F("Duration in Seconds:\t\t"));
    Serial.println(float(millis())/1000);
