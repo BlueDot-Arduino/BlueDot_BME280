@@ -59,9 +59,15 @@ uint8_t BlueDot_BME280::init(void)
 		SPI.setClockDivider(SPI_CLOCK_DIV4);					//Sets SPI clock to 1/4th of the system clock (i.e. 4000 kHz for Arduino Uno)
 		SPI.setDataMode(SPI_MODE0);								//Set Byte Transfer to (0,0) Mode
 	}
-	else														//I2C Communication
+	if (parameter.communication == 3)							//I2C Communication for NodeMCU Boards
 	{
-		Wire.begin();											
+		Wire.begin(0,2);										//Wire.begin([SDA],[SCL])
+																//NodeMCU Boards do not have dedicated I2C pins
+																//Here we are setting GPIO0 (Pin D3) as SDA and GPIO2 (Pin D4) as SCL
+	}		
+	else														//Default I2C Communication 
+	{
+		Wire.begin();											//Default value for Arduino Boards
 	}
 
  
