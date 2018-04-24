@@ -22,6 +22,7 @@ This library allows the user to program and read the outputs of the BME280 Senso
 * V1.0.5 - Minor correction on BME280_WeatherStation.ino sketch
 * V1.0.6 - Minor correction on BME280_WeatherStation.ino sketch
 * V1.0.7 - Minor correction on BME280_WeatherStation.ino sketch
+* V1.0.8 - Library adapted for NodeMCU Boards with ESP8266 
 
 
 ## **License Information**
