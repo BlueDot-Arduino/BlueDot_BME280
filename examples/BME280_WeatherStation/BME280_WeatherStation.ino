@@ -29,9 +29,8 @@ void setup() {
   //0:        Set to 0 for I2C (default value)
   //1:        Set to 1 for Software SPI
   //2:        Set to 2 for Hardware SPI
-  //3:        Set to 3 for I2C for NodeMCU Board (SDA = Pin D3, SCL = D4)
-
-    bme280.parameter.communication = 3;                  //Choose communication protocol
+ 
+    bme280.parameter.communication = 0;                  //Choose communication protocol
 
     
      
