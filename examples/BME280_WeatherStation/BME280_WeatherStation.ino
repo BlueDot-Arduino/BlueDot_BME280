@@ -73,7 +73,30 @@ void setup() {
   
     bme280.parameter.sensorMode = 0b11;                   //Choose sensor mode
 
-    
+  
+  //*********************************************************************
+  //*************ADVANCED SETUP - SAFE TO IGNORE!************************
+  
+  //Now set up the internal sampling rate with parameter t_sb
+  //In "normal mmode" the device reads values continuously even when a new reading has
+  //not been requested. This is required for the IIR filter to work. Parameter t_sb
+  //sets the delay between measurements.
+  //Default is to run as fast as possible, waiting only 0.5msec between readings.
+  //This gives the fastest response and best performance of the IIR filter, but many
+  //users report that when running full speed the decive tends to return temperatures
+  //that are about 0.3 deg C warmer.
+  //Slowest available is wait 1sec between readings.
+
+  //0b000:      0.5 msec (default value)
+  //0b001:      62.5 msec
+  //0b010:      125 msec
+  //0b011:      250 msec
+  //0b100:      500 msec (0.5 sec, 2Hz)
+  //0b101:     1000 msec (1sec, 1Hz)
+  //0b110:       10 msec
+  //0b111:       20 msec
+    bme280.parameter.t_sb = 0b000;                    //Setup for t_sb normal mode sampling delay
+
 
   //*********************************************************************
   //*************ADVANCED SETUP - SAFE TO IGNORE!************************
@@ -92,7 +115,16 @@ void setup() {
 
     bme280.parameter.IIRfilter = 0b100;                    //Setup for IIR Filter
 
-    
+  
+  //*********************************************************************
+  //*************ADVANCED SETUP - SAFE TO IGNORE!************************
+  
+  //Set control of 3-wire SPI 
+  //In doubt just leave on default
+  // 0b0:       Off (default)
+  // 0b1:       On
+    bme280.parameter.spi3 = 0b0;                          // Turn 3wire SPI on/off.
+
 
   //*********************************************************************
   //*************ADVANCED SETUP - SAFE TO IGNORE!************************
