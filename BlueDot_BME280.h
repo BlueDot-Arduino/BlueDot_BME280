@@ -100,7 +100,9 @@ struct DeviceParameter
 	int8_t SPI_miso;
 	uint8_t I2CAddress;
 	uint8_t sensorMode;
+	uint8_t t_sb;
 	uint8_t IIRfilter;
+	uint8_t spi3;
 	uint8_t tempOversampling;
 	uint8_t pressOversampling;
 	uint8_t humidOversampling;
@@ -126,7 +128,7 @@ class BlueDot_BME280
   uint8_t readByte(byte reg);
   uint8_t spiTransfer(uint8_t data);
   void writeByte(byte reg, byte value);
-  void writeIIRFilter(void);
+  void writeConfig(void);
   void readCoefficients(void);
   void writeCTRLMeas(void);
   float readPressure(void);
