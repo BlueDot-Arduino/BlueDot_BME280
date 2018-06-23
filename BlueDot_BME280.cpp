@@ -16,7 +16,9 @@ BlueDot_BME280::BlueDot_BME280()
 	parameter.communication;
 	parameter.I2CAddress;
 	parameter.sensorMode;
+	parameter.t_sb;
 	parameter.IIRfilter;
+	parameter.spi3
 	parameter.tempOversampling;
 	parameter.pressOversampling;
 	parameter.humidOversampling;
@@ -78,15 +80,17 @@ uint8_t BlueDot_BME280::init(void)
 	
 	
 	
-	//3. Set up IIR Filter
-	//####################
+	//3. Set up IIR Filter, normal mode sampling rate (t_sb) and 3-wire spi (3spi)
+	//############################################################################
 	//The BME280 features an internal IIR (Infinite Impulse Response) Filter
 	//The IIR Filter suppresses high frequency fluctuations (i. e. pressure changes due to slamming doors)
 	//It improves the pressure and temperature resolution to 20 bits
 	//The resolution of the humidity measurement is fixed at 16 bits and is not affected by the filter
 	//When enabled, we can set up the filter coefficient (2, 4, 8 or 16)
 	//This coefficient defines the filter's time constant (please refer to Datasheet)
-	writeIIRFilter();	
+	//Parameter t_sb sets the internal sampling rate, independant of the rate you actually poll values.
+	// Parameter spi3 turns on 3-wire SPI mode.
+	writeConfig();	
 	
 	
 	
@@ -144,15 +148,24 @@ void BlueDot_BME280::readCoefficients(void)
 	bme280_coefficients.dig_H6 = ((uint8_t)(readByte(BME280_DIG_H6)));
 }
 //##########################################################################
-void BlueDot_BME280::writeIIRFilter(void)
+void BlueDot_BME280::writeConfig(void)
 {
+        //The irritatingly vague name (writeConfig) is derived from the data sheet
+	//The manufacturers simply refer to byte 0xF5 as "config" so I use it for consistency.
+	//It is not really a very good function name.
+	//
 	//We set up the IIR Filter through bits 4, 3 and 2 from Config Register (0xF5)]
-	//The other bits from this register won't be used in this program and remain 0
-	//Please refer to the BME280 Datasheet for more information
-	
-	byte value;
-	value = (parameter.IIRfilter << 2) & 0b00011100;
-	writeByte(BME280_CONFIG, value);
+        //t_sb is set in bits 5,6,7 and controls sampling rate
+        //spi3 is set in bit 0 and turns on/off the 3pin SPI mode
+        //bit 1 is actually never used
+        //Please refer to the BME280 Datasheet for more information
+
+        byte value;
+
+        value = (parameter.t_sb << 5) & 0b11100000;
+        value |= (parameter.IIRfilter << 2) & 0b00011100;
+        value |= parameter.spi3 & 0b00000001;
+        writeByte(BME280_CONFIG, value);
 }
 //##########################################################################
 void BlueDot_BME280::writeCTRLMeas(void)
