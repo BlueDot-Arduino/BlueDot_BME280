@@ -1,3 +1,6 @@
+
+Forked for the purpose of adding support for setting the internal sample rate in "normal mode" as requested in issue #10- (https://github.com/BlueDot-Arduino/BlueDot_BME280/issues/10). No other changes made. Just replaced writeIIRFilter() that sets IIR Filter only with writeConfig() which sets all three available parameters in memory address 0xF5.
+
 ## **BlueDot Arduino Libraries**
 
 This library allows the user to program and read the outputs of the BME280 Sensor with an Arduino Board.
