@@ -93,49 +93,46 @@ struct BME280_Coefficients
 	
 struct DeviceParameter
 {
-	uint8_t communication = 0;
+	uint8_t communication = 0; // i2c
 	int8_t SPI_cs;
 	int8_t SPI_sck;
 	int8_t SPI_mosi;
 	int8_t SPI_miso;
-	uint8_t I2CAddress;
-	uint8_t sensorMode;
-	uint8_t IIRfilter;
-	uint8_t tempOversampling;
-	uint8_t pressOversampling;
-	uint8_t humidOversampling;
-	uint16_t pressureSeaLevel;
-	int16_t tempOutsideCelsius = 999;
+	uint8_t I2CAddress=0x76;
+	uint8_t sensorMode=0b11; //normal mode
+	uint8_t IIRfilter= 0b100; //factor 16
+	uint8_t tempOversampling = 0b101; //factor 16
+	uint8_t pressOversampling = 0b101; //factor 16
+	uint8_t humidOversampling = 0b101; //factor 16
+	uint16_t pressureSeaLevel = 1013.25;
+	int16_t tempOutsideCelsius = 15;
 	int16_t tempOutsideFahrenheit = 999;
-	
 };
 
 
 class BlueDot_BME280 
 {
  public: 
-  
   DeviceParameter parameter;
-  BME280_Coefficients bme280_coefficients;
-  int32_t t_fine;
-  
   
   BlueDot_BME280();
-  uint8_t init(void);
-  uint8_t checkID(void);
+  uint8_t init();
+  uint8_t checkID();
   uint8_t readByte(byte reg);
   uint8_t spiTransfer(uint8_t data);
   void writeByte(byte reg, byte value);
-  void writeIIRFilter(void);
-  void readCoefficients(void);
-  void writeCTRLMeas(void);
-  float readPressure(void);
-  float readTempC(void);
-  float readTempF(void);
-  float readHumidity(void);
-  float readAltitudeFeet(void);
-  float readAltitudeMeter(void);
-  float convertTempKelvin(void);
-
+  void writeIIRFilter();
+  void readCoefficients();
+  void writeCTRLMeas();
+  float readPressure();
+  float readTempC();
+  float readTempF();
+  float readHumidity();
+  float readAltitudeFeet();
+  float readAltitudeMeter();
+  float convertTempKelvin();
+private:
+  int32_t t_fine;
+  BME280_Coefficients bme280_coefficients;
 };
 

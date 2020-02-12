@@ -1,8 +1,3 @@
-
-
-
-
-
 #if defined(_AVR_)
 #include <util/delay.h>
 #endif
@@ -11,22 +6,9 @@
 #include "Wire.h"
 #include "SPI.h"
 
-BlueDot_BME280::BlueDot_BME280()
-{
-	parameter.communication;
-	parameter.I2CAddress;
-	parameter.sensorMode;
-	parameter.IIRfilter;
-	parameter.tempOversampling;
-	parameter.pressOversampling;
-	parameter.humidOversampling;
-	parameter.pressureSeaLevel = 0;
-	parameter.tempOutsideCelsius = 999;
-	parameter.tempOutsideFahrenheit = 999;
+BlueDot_BME280::BlueDot_BME280() = default;
 
-}
-
-uint8_t BlueDot_BME280::init(void)
+uint8_t BlueDot_BME280::init()
 {
 	//In order to start the BME280 we need to go through the following steps:
 	//1. Choose the Communication Protocol (I2C, Software SPI or Hardware SPI)
@@ -35,13 +17,9 @@ uint8_t BlueDot_BME280::init(void)
 	//4. Set up Oversampling Factors and Sensor Run Mode
 	//5. Check Communication (ask and verificate chip ID)	
 	
-	
-	
 
 	//1. Communication Protocol
 	//#########################
-	//
-	
 	if (parameter.communication == 1)							//Software SPI Communication		
 	{
 		digitalWrite(parameter.SPI_cs, HIGH);					//Chip Select Pin to HIGH
@@ -61,12 +39,10 @@ uint8_t BlueDot_BME280::init(void)
 	}
 	else														//Default I2C Communication 
 	{
-		Wire.begin();											//Default value for Arduino Boards
-		//Wire.begin(0,2);										//Use this for NodeMCU board; SDA = GPIO0 = D3; SCL = GPIO2 = D4
+		// Wire.begin();											//Default value for Arduino Boards
+		Wire.begin(4,15);										//Use this for NodeMCU board; SDA = GPIO0 = D3; SCL = GPIO2 = D4
 	}
 
-
- 
 		
 	//2. Reading Compensation Coefficients
 	//####################################
@@ -76,8 +52,7 @@ uint8_t BlueDot_BME280::init(void)
 	//These are stored into the device during production	
 	readCoefficients();
 	
-	
-	
+
 	//3. Set up IIR Filter
 	//####################
 	//The BME280 features an internal IIR (Infinite Impulse Response) Filter
@@ -88,15 +63,13 @@ uint8_t BlueDot_BME280::init(void)
 	//This coefficient defines the filter's time constant (please refer to Datasheet)
 	writeIIRFilter();	
 	
-	
-	
+
 	//4. Set up Oversampling Factors and Sensor Mode
 	//##############################################
 	//Oversampling heavily influences the noise in the data (please refer to the Datasheet for more Info)
 	//The BME280 Datasheet provides settings suggestions for different applications		
 	//Finally we write all those values to their respective registers
 	writeCTRLMeas();
-	
 	
 	
 	//5. Check Communication
@@ -107,15 +80,14 @@ uint8_t BlueDot_BME280::init(void)
 	//Also check the correct I2C Address (either 0x76 or 0x77)
 	
 	return checkID();
-
 }
+
 //##########################################################################
 //SET UP FUNCTIONS
 //##########################################################################
-uint8_t BlueDot_BME280::checkID(void)
+uint8_t BlueDot_BME280::checkID()
 {
-	uint8_t chipID;
-	chipID = readByte(BME280_CHIP_ID);
+	const uint8_t chipID = readByte(BME280_CHIP_ID);
 	return chipID;
 	
 }
@@ -150,15 +122,13 @@ void BlueDot_BME280::writeIIRFilter(void)
 	//The other bits from this register won't be used in this program and remain 0
 	//Please refer to the BME280 Datasheet for more information
 	
-	byte value;
-	value = (parameter.IIRfilter << 2) & 0b00011100;
+	byte value = (parameter.IIRfilter << 2) & 0b00011100;
 	writeByte(BME280_CONFIG, value);
 }
 //##########################################################################
 void BlueDot_BME280::writeCTRLMeas(void)
 {
-	byte value;
-	value = parameter.humidOversampling & 0b00000111;
+	byte value = parameter.humidOversampling & 0b00000111;
 	writeByte(BME280_CTRL_HUM, value);
 	
 	value = (parameter.tempOversampling << 5) & 0b11100000;
@@ -175,7 +145,6 @@ float BlueDot_BME280::readPressure(void)
 	{
 		return 0;
 	}
-	
 	else
 	{
 		readTempC();
@@ -203,7 +172,7 @@ float BlueDot_BME280::readPressure(void)
 		P = ((P + var1 + var2) >> 8) + (((int64_t)bme280_coefficients.dig_P7)<<4);
 		
 		P = P >> 8; // /256
-		return (float)P/100;
+		return (float)P/100.f;
 		
 	}
 }
@@ -220,21 +189,21 @@ float BlueDot_BME280::convertTempKelvin(void)
 		
 	float tempOutsideKelvin;	
 	
-	if (parameter.tempOutsideCelsius != 999 & parameter.tempOutsideFahrenheit == 999 )   
+	if (parameter.tempOutsideCelsius != 999 && parameter.tempOutsideFahrenheit == 999 )   
 	{
 		tempOutsideKelvin = parameter.tempOutsideCelsius;
 		tempOutsideKelvin = tempOutsideKelvin + 273.15;
 		return tempOutsideKelvin;		
 	}
 	
-	if (parameter.tempOutsideCelsius != 999 & parameter.tempOutsideFahrenheit != 999 )   
+	if (parameter.tempOutsideCelsius != 999 && parameter.tempOutsideFahrenheit != 999 )   
 	{
 		tempOutsideKelvin = parameter.tempOutsideCelsius;
 		tempOutsideKelvin = tempOutsideKelvin + 273.15;
 		return tempOutsideKelvin;		
 	}
 	
-	if (parameter.tempOutsideFahrenheit != 999 & parameter.tempOutsideCelsius == 999)
+	if (parameter.tempOutsideFahrenheit != 999 && parameter.tempOutsideCelsius == 999)
 	{
 		
 		tempOutsideKelvin = (parameter.tempOutsideFahrenheit - 32);
@@ -244,7 +213,7 @@ float BlueDot_BME280::convertTempKelvin(void)
 		return tempOutsideKelvin;	
 	}
 	
-	if (parameter.tempOutsideFahrenheit == 999 & parameter.tempOutsideCelsius == 999)
+	if (parameter.tempOutsideFahrenheit == 999 && parameter.tempOutsideCelsius == 999)
 	{
 		tempOutsideKelvin = 273.15 + 15;
 		return tempOutsideKelvin; 
@@ -294,15 +263,12 @@ float BlueDot_BME280::readHumidity(void)
 	{
 		return 0;
 	}
-	
 	else
 	{
-		int32_t adc_H;
-		adc_H = (uint32_t)readByte(BME280_HUMIDITY_MSB) << 8;
+		int32_t adc_H = (uint32_t)readByte(BME280_HUMIDITY_MSB) << 8;
 		adc_H |= (uint32_t)readByte(BME280_HUMIDITY_LSB);
 		
-		int32_t var1;
-		var1 = (t_fine - ((int32_t)76800));
+		int32_t var1 = (t_fine - ((int32_t)76800));
 		var1 = (((((adc_H << 14) - (((int32_t)bme280_coefficients.dig_H4) << 20) - (((int32_t)bme280_coefficients.dig_H5) * var1)) +
 		((int32_t)16384)) >> 15) * (((((((var1 * ((int32_t)bme280_coefficients.dig_H6)) >> 10) * (((var1 * ((int32_t)bme280_coefficients.dig_H3)) >> 11) + ((int32_t)32768))) >> 10) + ((int32_t)2097152)) *
 		((int32_t)bme280_coefficients.dig_H2) + 8192) >> 14));
@@ -323,7 +289,6 @@ float BlueDot_BME280::readTempC(void)
 	{
 		return 0;
 	}
-	
 	else
 	{
 		int32_t adc_T;
@@ -344,30 +309,16 @@ float BlueDot_BME280::readTempC(void)
 }
 
 //##########################################################################
-float BlueDot_BME280::readTempF(void)
+float BlueDot_BME280::readTempF()
 {
 	if (parameter.tempOversampling == 0b000)				//disabling the temperature measurement function
 	{
 		return 0;
 	}	
-	
 	else
-	{
-		int32_t adc_T;
-		adc_T = (uint32_t)readByte(BME280_TEMPERATURE_MSB) << 12;
-		adc_T |= (uint32_t)readByte(BME280_TEMPERATURE_LSB) << 4;
-		adc_T |= (readByte(BME280_TEMPERATURE_XLSB) >> 4 )& 0b00001111;
-		
-		int64_t var1, var2;
-		
-		var1 = ((((adc_T>>3) - ((int32_t)bme280_coefficients.dig_T1<<1))) * ((int32_t)bme280_coefficients.dig_T2)) >> 11;
-		var2 = (((((adc_T>>4) - ((int32_t)bme280_coefficients.dig_T1)) * ((adc_T>>4) - ((int32_t)bme280_coefficients.dig_T1))) >> 12) *
-		((int32_t)bme280_coefficients.dig_T3)) >> 14;
-		t_fine = var1 + var2;
-		float T = (t_fine * 5 + 128) >> 8;
-		T = T / 100;
-		T = (T * 1.8) + 32;
-		return T;
+	{	
+		const auto T_Celcius = readTempC();
+		return  (T_Celcius * 1.8) + 32;
 	}
 }
 
