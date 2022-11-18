@@ -1,4 +1,5 @@
 ## **BlueDot Arduino Libraries**
+[![Compile Examples](https://github.com/BlueDot-Arduino/BlueDot_BME280/workflows/Compile%20Examples/badge.svg)](https://github.com/BlueDot-Arduino/BlueDot_BME280/actions?workflow=Compile+Examples)
 
 This library allows the user to program and read the outputs of the BME280 Sensor with an Arduino Board.
 
